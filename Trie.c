@@ -77,8 +77,9 @@ void print_help(struct Node* root, char* buffer, int depth) {
         buffer[depth] = root->data;
         if (root->isEndOfString){
             buffer[depth+1] = '\0';
-            printf( "%s\n", buffer);
-           printf( "%d\n", root->count);
+            printf( "\n %s", buffer);
+            printf("\n Number of shows: ");
+            printf( "%d", root->count);
         }
 
         // Traverse the subtree using equal pointer (middle subtree)
@@ -104,8 +105,10 @@ void print_help_reverse(struct Node* root, char* buffer, int depth) {
         buffer[depth] = root->data;
         if (root->isEndOfString){
             buffer[depth+1] = '\0';
-            printf( "%s\n", buffer);
-            printf( "%d\n", root->count);
+            printf( "\n %s", buffer);
+            printf("\n Number of shows: ");
+            printf( "%d", root->count);
+
         }
 
         // Traverse the subtree using equal pointer (middle subtree)
@@ -142,9 +145,8 @@ int main(int argc, char* argv[]){
     char* bigger = NULL;
     char c = getchar();
 
-
     //checks if reverse or regular
-    if(argc==2 && strcmp(argv[1],"r") == 0) {
+    if((argc==2) && (strcmp(argv[1],"r") == 0)) {
         reverse = 1;
     }
 
