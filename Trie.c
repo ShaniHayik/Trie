@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#define BIGGER_SIZE 30
 #define MAX 50
 
 
@@ -138,23 +137,17 @@ void freeTrie(struct Node** head){
 
 
 int main(int argc, char* argv[]){
-
     struct Node* root = NULL;
-    int size = 256, end_file = 0, count = 0, reverse = 0;
+    int size = 256, end_file = 0, count = 0;
     char* word = (char*)malloc(sizeof(char)*size);
     char* bigger = NULL;
-    char c = getchar();
+    char ch_current = getchar();
 
-    //checks if reverse or regular
-    if((argc==2) && (strcmp(argv[1],"r") == 0)) {
-        reverse = 1;
-    }
-
-    while((c!=EOF) || (c==EOF && end_file!=1)){
-        if(c!=' ' && c!= '\n' && c!='\0' && c!='\t'){
+    while((ch_current!=EOF) || (ch_current==EOF && end_file!=1)){
+        if(ch_current!=' ' && ch_current!= '\n' && ch_current!='\0' && ch_current!='\t'){
             if(count==size){
-                bigger = (char*)realloc(word,(size+BIGGER_SIZE)*sizeof(char));
-                size = size + BIGGER_SIZE;
+                bigger = (char*)realloc(word,(size+size)*sizeof(char));
+                size+=size;
                 if(bigger==NULL && word!=NULL){
                     free(word);
                     return -1;
@@ -163,32 +156,29 @@ int main(int argc, char* argv[]){
                 strcpy(word,bigger);
                 free(bigger);
             }
-            word[count]=c;
+            word[count]=ch_current;
             count++;
         }
 
         //insert word that not empty
-        if((c==' ' || c=='\n' || c=='\t' || c=='\0') || c==EOF){
+        if((ch_current==' ' || ch_current=='\n' || ch_current=='\t' || ch_current=='\0') || ch_current==EOF){
             word[count]='\0';
             if(word[0]!=' ' && count >= 1){
                 insert(&root,word);
             }
             count=0;
         }
-
-        if(c==EOF) end_file=1;
-        c = getchar();
+        if(ch_current==EOF) end_file=1;
+        ch_current = getchar();
     }
 
-    if(reverse == 1) {
+    if((argc==2) && (strcmp(argv[1],"r") == 0)) {
         print_reverse(root);
     }
     else {
         print(root);
     }
-
     freeTrie(&root);
     free(word);
-
     return 0;
 }
